@@ -9,11 +9,21 @@ function [image, name] = preprocessENSC57(videodir)
 videos = dir(videodir);
 nameF = {};
     for i = 3:length(videos)
+        %This gives us the file names if we want to use that later
         nameF{i-2} = videos(i).name;
+        %This is the actual path to each video
         path = fullfile(videos(i).folder,videos(i).name);
+        %We read the image using MATLAB
         videoObj = VideoReader(path);
+        %Now we take the very first frame and create an array of values
+        %that represent the image in MATLAB.
         imageArr = readFrame(videoObj);
-        image(:,:,i-2) = double(imageArr(:,:,1));
+        %imageArr is a nxnx3 array. The 3rd dimension represents the
+        %channels of the image (RGB). However, in our case we are using a
+        %monochromatic camera, so we will only take 1 channel because they
+        %all are equal. Doing this might speed up/make analysis of many
+        %images easier.
+        image(:,:,i-2) = imageArr(:,:,1);
     end
     name = string(nameF);
 end

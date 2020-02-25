@@ -15,6 +15,7 @@ opt3 = 4.25+4.25*0.089; %IR LED Boards
 j = 0;
 k = 0;
 l = 0;
+image = double(image);
 dim = size(image);
 for i = 1:dim(3)
     if contains(name(i),"Univivi")
@@ -32,4 +33,14 @@ for i = 1:dim(3)
     end
 end
 
-%Then we compare costs
+%Then we compare costs to ISO
+xISO = [10000,15000,20000];
+figure
+hold on 
+plot(xISO, costPLB)
+plot(xISO, costPLC)
+plot(xISO, costPLU(1:length(xISO)))
+grid on
+xlabel('ISO Value')
+ylabel('Light/Cost (PV/$)')
+legend('IR LED Boards', 'CMVision', 'Univivi')

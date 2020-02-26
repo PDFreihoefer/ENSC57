@@ -17,19 +17,28 @@ k = 0;
 l = 0;
 image = double(image);
 dim = size(image);
+
+%Let's compare the light to the maximum light we could deliver in the image
+%which would be an array of each pixel value being 255. Atleast that is the
+%max value for an 8bit integer that we could record.
+maxLight = dim(1)*dim(2)*255/100; %Let's move the decimals of our ratio so it's easier to understand from as a ratio.
+%Remember that this value matters only in comparision and not using the
+%value to calculate anything, so we can alter it slightly to make it
+%"aesthetically" pleasing.
+
 for i = 1:dim(3)
     if contains(name(i),"Univivi")
        j = j+1;
        sumLightU = sum(sum(image(:,:,i)));
-       costPLU(j) = sumLightU/opt1;
+       costPLU(j) = sumLightU/opt1/maxLight;
     elseif contains(name(i),"CMVision")
        k = k+1;
        sumLightC = sum(sum(image(:,:,i)));
-       costPLC(k) = sumLightC/opt2;
+       costPLC(k) = sumLightC/opt2/maxLight;
     elseif contains(name(i), "IRBoard")
        l = l+1;
        sumLightB = sum(sum(image(:,:,i)));
-       costPLB(l) = sumLightB/opt3;
+       costPLB(l) = sumLightB/opt3/maxLight;
     end
 end
 
